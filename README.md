@@ -3,6 +3,7 @@
 This is a [Vagrant](http://www.vagrantup.com/)
 [plugin](http://docs.vagrantup.com/v2/plugins/index.html)
 that adds VMware ESXi guest support.
+Added support for ESXi 6.5 and latest version of vagrant
 
 ## Installation
 

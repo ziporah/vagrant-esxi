@@ -9,13 +9,13 @@ module VagrantPlugins
             guestpath = opts[:guestpath]
             volume = guestpath.gsub("/", "_")
             machine.communicate.tap do |comm|
-              if comm.test("localcli storage nfs list | grep '^#{volume}'")
-                comm.execute("localcli storage nfs remove -v #{volume}")
+              if comm.test("esxcli storage nfs list | grep '^#{volume}'")
+                comm.execute("esxcli storage nfs remove -v #{volume}")
               end
-              mount_command = "localcli storage nfs add -H #{ip} -s '#{opts[:hostpath]}' -v '#{volume}'"
-              retryable(:on => Vagrant::Errors::LinuxNFSMountFailed, :tries => 5, :sleep => 2) do
+              mount_command = "esxcli storage nfs add -H #{ip} -s '#{opts[:hostpath]}' -v '#{volume}'"
+              retryable(:on => Vagrant::Errors::NFSMountFailed, :tries => 5, :sleep => 2) do
                 comm.execute(mount_command,
-                             :error_class => Vagrant::Errors::LinuxNFSMountFailed)
+                             :error_class => Vagrant::Errors::NFSMountFailed)
               end
 
               # symlink vmfs volume to :guestpath
